@@ -1,0 +1,20 @@
+{
+  "name": "modbros_restapi",
+  "displayName": "Rest API",
+  "author": "ModBros",
+  "description": null,
+  "assembly": "Plugin.RestApi.dll",
+  "localization": null,
+  "settings": [
+    {
+      "type": "number",
+      "name": "port",
+      "label": "Port",
+      "description": "The port for the Rest API",
+      "required": true,
+      "defaultValue": 8080,
+      "min": 0,
+      "max": 65535
+    }
+  ]
+}
