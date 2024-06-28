@@ -22,7 +22,10 @@ public sealed class GetAllMetricsEndpoint(IMoBroService moBroService)
         .Select(m => Map.FromEntity(m))
         .Select(m =>
         {
-          m.Value = moBroService.GetMetricValue(m.Id)?.Value;
+          // set current metric value
+          var currValue = moBroService.GetMetricValue(m.Id);
+          m.Value = currValue?.Value;
+          m.ValueUpdated = currValue?.Timestamp;
           return m;
         })
     );

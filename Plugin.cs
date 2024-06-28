@@ -1,3 +1,4 @@
+using System.Text.Json.Serialization;
 using FastEndpoints;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -36,6 +37,11 @@ public sealed class Plugin : IMoBroPlugin, IDisposable
     builder.Services.AddSingleton(_logger);
     builder.Services.AddSingleton(_mobro);
     builder.Services.AddSingleton(_settings);
+    builder.Services.ConfigureHttpJsonOptions(options =>
+    {
+      options.SerializerOptions.Converters.Add(new JsonStringEnumConverter());
+    });
+
 
     var app = builder.Build();
 

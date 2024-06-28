@@ -31,11 +31,16 @@ public sealed class CreateMetricEndpoint(IMoBroService moBroService, ILogger log
     moBroService.Register(entity);
     if (req.Value is not null)
     {
-      moBroService.UpdateMetricValue(entity.Id, req.Value.Value.ToObject());
+      moBroService.UpdateMetricValue(entity.Id, req.Value?.ToObject());
     }
 
     var response = Map.FromEntity(entity);
-    response.Value = moBroService.GetMetricValue(entity.Id)?.Value;
+
+    // set current metric value
+    var currValue = moBroService.GetMetricValue(entity.Id);
+    response.Value = currValue?.Value;
+    response.ValueUpdated = currValue?.Timestamp;
+
     await SendOkAsync(response, ct);
   }
 }

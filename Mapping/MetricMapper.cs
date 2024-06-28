@@ -17,8 +17,7 @@ public sealed class MetricMapper : Mapper<CreateMetricRequest, MetricResponse, M
       Description = e.Description,
       TypeId = e.TypeId,
       CategoryId = e.CategoryId,
-      IsStatic = e.IsStatic,
-      GroupId = e.GroupId
+      IsStatic = e.IsStatic
     };
   }
 
@@ -27,13 +26,12 @@ public sealed class MetricMapper : Mapper<CreateMetricRequest, MetricResponse, M
     return new Metric(
       r.Id,
       r.Label,
-      r.TypeId ?? CoreMetricType.Text.ToString().ToLower(),
-      r.CategoryId ?? CoreCategory.Miscellaneous.ToString().ToLower()
+      r.Type?.ToString().ToLower() ?? CoreMetricType.Text.ToString().ToLower(),
+      r.Category?.ToString().ToLower() ?? CoreCategory.Miscellaneous.ToString().ToLower()
     )
     {
       Description = r.Description,
       IsStatic = r.IsStatic ?? false,
-      GroupId = r.GroupId
     };
   }
 }

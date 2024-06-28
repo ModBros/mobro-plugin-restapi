@@ -14,7 +14,7 @@ public sealed class MetricResponse
 
   public string? Description { get; set; }
 
-  public string? GroupId { get; set; }
-
   public object? Value { get; set; }
+
+  public DateTime? ValueUpdated { get; set; }
 }
