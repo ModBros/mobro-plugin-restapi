@@ -1,3 +1,4 @@
+using System.Text.Json;
 using FastEndpoints;
 using Microsoft.AspNetCore.Http;
 
@@ -5,10 +6,17 @@ namespace MoBro.Plugin.RestApi.Extensions;
 
 public static class EndpointExtensions
 {
-  public static Task SendConflict(this IEndpoint ep, CancellationToken ct = default)
+  public static Task SendBadRequest(this IEndpoint ep, string detail, CancellationToken ct = default)
   {
-    ep.HttpContext.MarkResponseStart();
-    ep.HttpContext.Response.StatusCode = StatusCodes.Status409Conflict;
-    return ep.HttpContext.Response.StartAsync(ct);
+    var problemDetailsJson = JsonSerializer.Serialize(new ProblemDetails
+    {
+      Status = StatusCodes.Status400BadRequest,
+      Detail = detail
+    });
+
+    ep.HttpContext.Response.Clear();
+    ep.HttpContext.Response.StatusCode = StatusCodes.Status400BadRequest;
+    ep.HttpContext.Response.ContentType = "application/json";
+    return ep.HttpContext.Response.WriteAsync(problemDetailsJson, ct);
   }
 }

@@ -46,7 +46,11 @@ public sealed class Plugin : IMoBroPlugin, IDisposable
     var app = builder.Build();
 
     app.UseDefaultExceptionHandler();
-    app.UseFastEndpoints();
+    app.UseFastEndpoints(c =>
+    {
+      c.Endpoints.RoutePrefix = "api";
+      c.Errors.UseProblemDetails();
+    });
 
     // TODO handle error and forward to service
     app.RunAsync(_cancellationTokenSource.Token);

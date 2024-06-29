@@ -4,7 +4,7 @@ using MoBro.Plugin.RestApi.Contracts.Requests;
 using MoBro.Plugin.RestApi.Contracts.Responses;
 using MoBro.Plugin.RestApi.Extensions;
 using MoBro.Plugin.RestApi.Mapping;
-using MoBro.Plugin.SDK.Models.Metrics;
+using MoBro.Plugin.SDK.Exceptions;
 using MoBro.Plugin.SDK.Services;
 
 namespace MoBro.Plugin.RestApi.Endpoints.Metrics;
@@ -20,18 +20,30 @@ public sealed class CreateMetricEndpoint(IMoBroService moBroService, ILogger log
 
   public override async Task HandleAsync(CreateMetricRequest req, CancellationToken ct)
   {
-    if (moBroService.TryGet<Metric>(req.Id, out _))
+    var entity = Map.ToEntity(req);
+
+    try
     {
-      await this.SendConflict(ct);
+      moBroService.Register(entity);
+      logger.LogDebug("Registered new metric: {MetricId}", req.Id);
+    }
+    catch (MoBroItemValidationException e)
+    {
+      await this.SendBadRequest(e.Message, ct);
       return;
     }
 
-    logger.LogDebug("Creating new metric: {MetricId}", req.Id);
-    var entity = Map.ToEntity(req);
-    moBroService.Register(entity);
     if (req.Value is not null)
     {
-      moBroService.UpdateMetricValue(entity.Id, req.Value?.ToObject());
+      try
+      {
+        moBroService.UpdateMetricValue(entity.Id, req.Value?.ToObject());
+      }
+      catch (MetricValueValidationException e)
+      {
+        await this.SendBadRequest(e.Message, ct);
+        return;
+      }
     }
 
     var response = Map.FromEntity(entity);

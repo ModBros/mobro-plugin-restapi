@@ -2,6 +2,7 @@ using FastEndpoints;
 using Microsoft.Extensions.Logging;
 using MoBro.Plugin.RestApi.Contracts.Requests;
 using MoBro.Plugin.RestApi.Extensions;
+using MoBro.Plugin.SDK.Exceptions;
 using MoBro.Plugin.SDK.Models.Metrics;
 using MoBro.Plugin.SDK.Services;
 
@@ -25,8 +26,16 @@ public sealed class UpdateMetricValueEndpoint(IMoBroService moBroService, ILogge
       return;
     }
 
-    logger.LogDebug("Updating value of metric: {MetricId}", metricId);
-    moBroService.UpdateMetricValue(metricId, req.Value?.ToObject());
+    try
+    {
+      moBroService.UpdateMetricValue(metricId, req.Value?.ToObject());
+      logger.LogDebug("Updated value of metric: {MetricId}", metricId);
+    }
+    catch (MetricValueValidationException e)
+    {
+      await this.SendBadRequest(e.Message, ct);
+      return;
+    }
 
     await SendNoContentAsync(ct);
   }
