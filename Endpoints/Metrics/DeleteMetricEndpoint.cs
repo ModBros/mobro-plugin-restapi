@@ -10,7 +10,15 @@ public sealed class DeleteMetricEndpoint(IMoBroService moBroService, ILogger log
   public override void Configure()
   {
     Delete("/metrics/{id}");
+    Version(1);
     AllowAnonymous();
+    Summary(s =>
+    {
+      s.Summary = "Unregister a metric";
+      s.Params["id"] = "The id of the metric to unregister";
+      s.Responses[204] = "The metric was successfully unregistered";
+      s.Responses[404] = "The metric does not exist";
+    });
   }
 
   public override async Task HandleAsync(CancellationToken ct)

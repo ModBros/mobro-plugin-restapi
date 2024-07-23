@@ -23,7 +23,7 @@ public class MetricValidator : Validator<CreateMetricRequest>
     RuleFor(r => r.Label)
       .NotNull()
       .NotEmpty()
-      .Length(1, 32);
+      .Length(1, 64);
 
     RuleFor(r => r.Description)
       .MaximumLength(256);

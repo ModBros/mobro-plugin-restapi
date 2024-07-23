@@ -2,9 +2,10 @@
 using MoBro.Plugin.SDK;
 
 // create and start the plugin to test it locally
-var plugin = MoBroPluginBuilder
+using var plugin = MoBroPluginBuilder
   .Create<Plugin>()
   .WithSetting("port", "8080")
+  .WithSetting("swagger_enable", "true")
   .Build();
 
 // prevent the program from exiting immediately

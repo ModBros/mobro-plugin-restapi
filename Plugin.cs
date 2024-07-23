@@ -1,63 +1,93 @@
 using System.Text.Json.Serialization;
 using FastEndpoints;
+using FastEndpoints.Swagger;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
 using MoBro.Plugin.SDK;
 using MoBro.Plugin.SDK.Services;
 using ILogger = Microsoft.Extensions.Logging.ILogger;
 
 namespace MoBro.Plugin.RestApi;
 
-public sealed class Plugin : IMoBroPlugin, IDisposable
+public sealed class Plugin(IMoBroService service, IMoBroSettings settings, ILogger logger) : IMoBroPlugin, IDisposable
 {
-  private readonly ILogger _logger;
-  private readonly IMoBroService _mobro;
-  private readonly IMoBroSettings _settings;
+  private readonly CancellationTokenSource _cancellationTokenSource = new();
 
-  private readonly CancellationTokenSource _cancellationTokenSource;
-
-  public Plugin(IMoBroService mobro, IMoBroSettings settings, ILogger logger)
-  {
-    _logger = logger;
-    _mobro = mobro;
-    _settings = settings;
-    _cancellationTokenSource = new CancellationTokenSource();
-  }
+  private Task? _appRunTask;
 
   public void Init()
   {
-    var port = _settings.GetValue<string>("port");
+    var port = settings.GetValue("port", 8080);
+    var swagger = settings.GetValue("swagger_enable", false);
 
-    var builder = WebApplication.CreateBuilder();
+    var app = BuildWebApplication(port, swagger);
 
-    builder.WebHost.UseUrls($"http://localhost:{port}");
-    builder.Services.AddFastEndpoints();
-    builder.Services.AddSingleton(_logger);
-    builder.Services.AddSingleton(_mobro);
-    builder.Services.AddSingleton(_settings);
-    builder.Services.ConfigureHttpJsonOptions(options =>
+    logger.LogInformation("Starting on port {Port}", port);
+    _appRunTask = app.RunAsync(_cancellationTokenSource.Token).ContinueWith(t =>
     {
-      options.SerializerOptions.Converters.Add(new JsonStringEnumConverter());
+      if (t.IsFaulted)
+      {
+        service.Error(t.Exception);
+      }
     });
+  }
 
+  private WebApplication BuildWebApplication(int port, bool swagger)
+  {
+    var bld = WebApplication.CreateBuilder();
 
-    var app = builder.Build();
+    bld.WebHost.UseUrls($"http://localhost:{port}");
+    bld.Services
+      .AddFastEndpoints()
+      .AddSingleton(logger)
+      .AddSingleton(service)
+      .AddSingleton(settings)
+      .ConfigureHttpJsonOptions(options =>
+      {
+        options.SerializerOptions.Converters.Add(new JsonStringEnumConverter());
+      });
 
-    app.UseDefaultExceptionHandler();
-    app.UseFastEndpoints(c =>
+    if (swagger)
     {
-      c.Endpoints.RoutePrefix = "api";
-      c.Errors.UseProblemDetails();
-    });
+      bld.Services.SwaggerDocument(o =>
+      {
+        o.ShortSchemaNames = true;
+        o.MaxEndpointVersion = 1;
+        o.DocumentSettings = s =>
+        {
+          s.DocumentName = "MoBro REST API v1";
+          s.Version = "v1";
+        };
+      });
+    }
 
-    // TODO handle error and forward to service
-    app.RunAsync(_cancellationTokenSource.Token);
+    var app = bld.Build();
+    app
+      .UseDefaultExceptionHandler()
+      .UseFastEndpoints(c =>
+      {
+        c.Endpoints.RoutePrefix = "api";
+        c.Errors.UseProblemDetails();
+        c.Endpoints.ShortNames = true;
+        c.Versioning.Prefix = "v";
+        c.Versioning.PrependToRoute = true;
+      });
+
+    if (swagger)
+    {
+      app.UseSwaggerGen();
+    }
+
+    return app;
   }
 
   public void Dispose()
   {
+    _cancellationTokenSource.Cancel();
+    _appRunTask?.Wait(TimeSpan.FromSeconds(10));
     _cancellationTokenSource.Dispose();
   }
 }

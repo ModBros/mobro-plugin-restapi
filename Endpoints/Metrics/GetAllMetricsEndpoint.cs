@@ -1,6 +1,7 @@
 using FastEndpoints;
 using MoBro.Plugin.RestApi.Contracts.Responses;
 using MoBro.Plugin.RestApi.Mapping;
+using MoBro.Plugin.SDK.Enums;
 using MoBro.Plugin.SDK.Models.Metrics;
 using MoBro.Plugin.SDK.Services;
 
@@ -12,7 +13,25 @@ public sealed class GetAllMetricsEndpoint(IMoBroService moBroService)
   public override void Configure()
   {
     Get("/metrics");
+    Version(1);
     AllowAnonymous();
+    Summary(s =>
+    {
+      s.Summary = "Get all registered metrics";
+      s.ResponseExamples[200] = new[]
+      {
+        new MetricResponse
+        {
+          Id = "ti",
+          Label = "Temperature 1",
+          TypeId = CoreMetricType.Temperature.ToString(),
+          CategoryId = CoreCategory.Miscellaneous.ToString(),
+          Description = "Some temperature",
+          IsStatic = false
+        }
+      };
+      s.Responses[200] = "All registered metrics";
+    });
   }
 
   public override Task<IEnumerable<MetricResponse>> ExecuteAsync(EmptyRequest r, CancellationToken ct)

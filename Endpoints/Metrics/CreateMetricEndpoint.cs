@@ -4,6 +4,7 @@ using MoBro.Plugin.RestApi.Contracts.Requests;
 using MoBro.Plugin.RestApi.Contracts.Responses;
 using MoBro.Plugin.RestApi.Extensions;
 using MoBro.Plugin.RestApi.Mapping;
+using MoBro.Plugin.SDK.Enums;
 using MoBro.Plugin.SDK.Exceptions;
 using MoBro.Plugin.SDK.Services;
 
@@ -15,7 +16,38 @@ public sealed class CreateMetricEndpoint(IMoBroService moBroService, ILogger log
   public override void Configure()
   {
     Post("/metrics");
+    Version(1);
     AllowAnonymous();
+    Summary(s =>
+    {
+      s.Summary = "Register a new metric";
+      s.ExampleRequest = new CreateMetricRequest
+      {
+        Id = "t1",
+        Label = "Temperature 1",
+        Type = CoreMetricType.Temperature,
+        Description = "Some temperature",
+        IsStatic = false
+      };
+      s.ResponseExamples[200] = new MetricResponse
+      {
+        Id = "ti",
+        Label = "Temperature 1",
+        TypeId = CoreMetricType.Temperature.ToString(),
+        CategoryId = CoreCategory.Miscellaneous.ToString(),
+        Description = "Some temperature",
+        IsStatic = false
+      };
+      s.Responses[200] = "The newly registered metric";
+      s.Responses[400] = "Validation error";
+      s.RequestParam(r => r.Id, "The unique id of the metric");
+      s.RequestParam(r => r.Label, "The label for the metric");
+      s.RequestParam(r => r.Type, "The type of the metric (optional, default: Text)");
+      s.RequestParam(r => r.Category, "The category this metric belongs to (optional, default: Miscellaneous)");
+      s.RequestParam(r => r.IsStatic, "Whether the metrics value does change over time (optional, default: false)");
+      s.RequestParam(r => r.Description, "A textual description for the metric (optional)");
+      s.RequestParam(r => r.Value, "The current value of the metric (optional)");
+    });
   }
 
   public override async Task HandleAsync(CreateMetricRequest req, CancellationToken ct)
