@@ -15,7 +15,6 @@ public sealed class MetricMapper : Mapper<CreateMetricRequest, MetricResponse, M
     Description = e.Description,
     TypeId = e.TypeId,
     CategoryId = e.CategoryId,
-    IsStatic = e.IsStatic
   };
 
   public override Metric ToEntity(CreateMetricRequest r) => new()
@@ -25,6 +24,6 @@ public sealed class MetricMapper : Mapper<CreateMetricRequest, MetricResponse, M
     TypeId = r.Type?.ToString().ToLower() ?? CoreMetricType.Text.ToString().ToLower(),
     CategoryId = r.Category?.ToString().ToLower() ?? CoreCategory.Miscellaneous.ToString().ToLower(),
     Description = r.Description,
-    IsStatic = r.IsStatic ?? false,
+    IsStatic = false,
   };
 }

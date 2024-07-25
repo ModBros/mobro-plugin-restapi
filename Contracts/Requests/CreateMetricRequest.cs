@@ -16,9 +16,6 @@ public sealed class CreateMetricRequest
   [DefaultValue(CoreCategory.Miscellaneous)]
   public CoreCategory? Category { get; set; }
 
-  [DefaultValue(false)] 
-  public bool? IsStatic { get; set; } = false;
-
   public string? Description { get; set; }
 
   public JsonElement? Value { get; set; }

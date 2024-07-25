@@ -6,12 +6,15 @@ using MoBro.Plugin.RestApi.Extensions;
 using MoBro.Plugin.RestApi.Mapping;
 using MoBro.Plugin.SDK.Enums;
 using MoBro.Plugin.SDK.Exceptions;
+using MoBro.Plugin.SDK.Models.Metrics;
 using MoBro.Plugin.SDK.Services;
 
 namespace MoBro.Plugin.RestApi.Endpoints.Metrics;
 
-public sealed class CreateMetricEndpoint(IMoBroService moBroService, ILogger logger)
-  : Endpoint<CreateMetricRequest, MetricResponse, MetricMapper>
+public sealed class CreateMetricEndpoint(
+  IMoBroService moBroService,
+  ILogger logger
+) : Endpoint<CreateMetricRequest, MetricResponse, MetricMapper>
 {
   public override void Configure()
   {
@@ -27,7 +30,6 @@ public sealed class CreateMetricEndpoint(IMoBroService moBroService, ILogger log
         Label = "Temperature 1",
         Type = CoreMetricType.Temperature,
         Description = "Some temperature",
-        IsStatic = false
       };
       s.ResponseExamples[200] = new MetricResponse
       {
@@ -36,7 +38,6 @@ public sealed class CreateMetricEndpoint(IMoBroService moBroService, ILogger log
         TypeId = CoreMetricType.Temperature.ToString(),
         CategoryId = CoreCategory.Miscellaneous.ToString(),
         Description = "Some temperature",
-        IsStatic = false
       };
       s.Responses[200] = "The newly registered metric";
       s.Responses[400] = "Validation error";
@@ -44,7 +45,6 @@ public sealed class CreateMetricEndpoint(IMoBroService moBroService, ILogger log
       s.RequestParam(r => r.Label, "The label for the metric");
       s.RequestParam(r => r.Type, "The type of the metric (optional, default: Text)");
       s.RequestParam(r => r.Category, "The category this metric belongs to (optional, default: Miscellaneous)");
-      s.RequestParam(r => r.IsStatic, "Whether the metrics value does change over time (optional, default: false)");
       s.RequestParam(r => r.Description, "A textual description for the metric (optional)");
       s.RequestParam(r => r.Value, "The current value of the metric (optional)");
     });
@@ -52,6 +52,12 @@ public sealed class CreateMetricEndpoint(IMoBroService moBroService, ILogger log
 
   public override async Task HandleAsync(CreateMetricRequest req, CancellationToken ct)
   {
+    if (moBroService.TryGet<Metric>(req.Id, out _))
+    {
+      await this.SendConflict("Metric already exists", ct);
+      return;
+    }
+
     var entity = Map.ToEntity(req);
 
     try

@@ -10,8 +10,6 @@ public sealed class MetricResponse
 
   public required string CategoryId { get; set; }
 
-  public bool IsStatic { get; set; }
-
   public string? Description { get; set; }
 
   public object? Value { get; set; }

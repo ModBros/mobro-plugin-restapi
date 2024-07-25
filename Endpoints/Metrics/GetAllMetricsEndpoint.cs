@@ -27,7 +27,6 @@ public sealed class GetAllMetricsEndpoint(IMoBroService moBroService)
           TypeId = CoreMetricType.Temperature.ToString(),
           CategoryId = CoreCategory.Miscellaneous.ToString(),
           Description = "Some temperature",
-          IsStatic = false
         }
       };
       s.Responses[200] = "All registered metrics";

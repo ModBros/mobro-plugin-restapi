@@ -6,16 +6,22 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using MoBro.Plugin.RestApi.Services;
 using MoBro.Plugin.SDK;
 using MoBro.Plugin.SDK.Services;
 using ILogger = Microsoft.Extensions.Logging.ILogger;
 
 namespace MoBro.Plugin.RestApi;
 
-public sealed class Plugin(IMoBroService service, IMoBroSettings settings, ILogger logger) : IMoBroPlugin, IDisposable
+public sealed class Plugin(
+  IMoBroService service,
+  IMoBroSettings settings,
+  IMoBroPersistenceManager persistenceManager,
+  ILogger logger
+) : IMoBroPlugin, IDisposable
 {
   private readonly CancellationTokenSource _cancellationTokenSource = new();
-
+  private readonly PersistenceService _persistenceService = new(persistenceManager, service, settings, logger);
   private Task? _appRunTask;
 
   public void Init()
@@ -33,6 +39,8 @@ public sealed class Plugin(IMoBroService service, IMoBroSettings settings, ILogg
         service.Error(t.Exception);
       }
     });
+
+    _persistenceService.LoadMetrics();
   }
 
   private WebApplication BuildWebApplication(int port, bool swagger)
@@ -45,6 +53,7 @@ public sealed class Plugin(IMoBroService service, IMoBroSettings settings, ILogg
       .AddSingleton(logger)
       .AddSingleton(service)
       .AddSingleton(settings)
+      .AddSingleton(_persistenceService)
       .ConfigureHttpJsonOptions(options =>
       {
         options.SerializerOptions.Converters.Add(new JsonStringEnumConverter());
@@ -82,6 +91,11 @@ public sealed class Plugin(IMoBroService service, IMoBroSettings settings, ILogg
     }
 
     return app;
+  }
+
+  public void Shutdown()
+  {
+    _persistenceService.PersistMetrics();
   }
 
   public void Dispose()

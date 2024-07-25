@@ -33,7 +33,7 @@
     <ItemGroup>
         <PackageReference Include="FastEndpoints" Version="5.27.0" />
         <PackageReference Include="FastEndpoints.Swagger" Version="5.27.0" />
-        <PackageReference Include="MoBro.Plugin.SDK" Version="0.4.0-rc7" PrivateAssets="all" />
+        <PackageReference Include="MoBro.Plugin.SDK" Version="0.4.0-rc10" PrivateAssets="all" />
     </ItemGroup>
 
     <ItemGroup>
