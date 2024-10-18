@@ -9,7 +9,7 @@
         <Description>Rest API plugin for MoBro</Description>
         <Title>MoBro Rest API plugin</Title>
         <Copyright>(C) ModBros KG 2024</Copyright>
-        <PackageProjectUrl>www.mod-bros.com</PackageProjectUrl>
+        <PackageProjectUrl>https://mobro.app</PackageProjectUrl>
         <VersionPrefix>0.1.0</VersionPrefix>
         <IsPackable>false</IsPackable>
         <Nullable>enable</Nullable>
