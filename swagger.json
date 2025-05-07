@@ -1,0 +1,488 @@
+{
+  "x-generator": "NSwag v14.3.0.0 (NJsonSchema v11.2.0.0 (Newtonsoft.Json v13.0.0.0))",
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Plugin.RestApi",
+    "version": "v1"
+  },
+  "servers": [
+    {
+      "url": "http://localhost:8080"
+    }
+  ],
+  "paths": {
+    "/api/v1/metrics": {
+      "post": {
+        "tags": [
+          "Metrics"
+        ],
+        "summary": "Register a new metric",
+        "operationId": "CreateMetricEndpoint",
+        "requestBody": {
+          "x-name": "CreateMetricRequest",
+          "description": "",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateMetricRequest"
+              }
+            }
+          },
+          "required": true,
+          "x-position": 1
+        },
+        "responses": {
+          "200": {
+            "description": "The newly registered metric",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MetricResponse"
+                },
+                "example": {
+                  "id": "ti",
+                  "label": "Temperature 1",
+                  "typeId": "Temperature",
+                  "categoryId": "Miscellaneous",
+                  "description": "Some temperature",
+                  "value": null,
+                  "valueUpdated": null
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Validation error",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "Metrics"
+        ],
+        "summary": "Get all registered metrics",
+        "operationId": "GetAllMetricsEndpoint",
+        "responses": {
+          "200": {
+            "description": "All registered metrics",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/MetricResponse"
+                  }
+                },
+                "example": [
+                  {
+                    "id": "ti",
+                    "label": "Temperature 1",
+                    "typeId": "Temperature",
+                    "categoryId": "Miscellaneous",
+                    "description": "Some temperature",
+                    "value": null,
+                    "valueUpdated": null
+                  }
+                ]
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/metrics/{id}": {
+      "delete": {
+        "tags": [
+          "Metrics"
+        ],
+        "summary": "Unregister a metric",
+        "operationId": "DeleteMetricEndpoint",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "The id of the metric to unregister",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "The metric was successfully unregistered"
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "Metrics"
+        ],
+        "summary": "Get a specific metric",
+        "operationId": "GetMetricEndpoint",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "The id of the metric",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The metric",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MetricResponse"
+                },
+                "example": {
+                  "id": "ti",
+                  "label": "Temperature 1",
+                  "typeId": "Temperature",
+                  "categoryId": "Miscellaneous",
+                  "description": "Some temperature",
+                  "value": null,
+                  "valueUpdated": null
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/metrics/{id}/value": {
+      "put": {
+        "tags": [
+          "Metrics"
+        ],
+        "summary": "Update the value of a metric",
+        "operationId": "UpdateMetricValueEndpoint",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "The id of the metric",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "x-name": "UpdateMetricValueRequest",
+          "description": "",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateMetricValueRequest"
+              }
+            }
+          },
+          "required": true,
+          "x-position": 1
+        },
+        "responses": {
+          "204": {
+            "description": "The value of the metric was successfully updated"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "MetricResponse": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "label": {
+            "type": "string"
+          },
+          "typeId": {
+            "type": "string"
+          },
+          "categoryId": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string",
+            "nullable": true
+          },
+          "value": {
+            "nullable": true
+          },
+          "valueUpdated": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          }
+        }
+      },
+      "ProblemDetails": {
+        "type": "object",
+        "description": "RFC7807 compatible problem details/ error response class. this can be used by configuring startup like so:\napp.UseFastEndpoints(c => c.Errors.UseProblemDetails())",
+        "additionalProperties": false,
+        "properties": {
+          "type": {
+            "type": "string",
+            "default": "https://www.rfc-editor.org/rfc/rfc7231#section-6.5.1"
+          },
+          "title": {
+            "type": "string",
+            "default": "One or more validation errors occurred."
+          },
+          "status": {
+            "type": "integer",
+            "format": "int32",
+            "default": 400
+          },
+          "instance": {
+            "type": "string",
+            "default": "/api/route"
+          },
+          "traceId": {
+            "type": "string",
+            "default": "0HMPNHL0JHL76:00000001"
+          },
+          "detail": {
+            "type": "string",
+            "description": "the details of the error",
+            "nullable": true
+          },
+          "errors": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ProblemDetails_Error"
+            }
+          }
+        }
+      },
+      "ProblemDetails_Error": {
+        "type": "object",
+        "description": "the error details object",
+        "additionalProperties": false,
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "the name of the error or property of the dto that caused the error",
+            "default": "Error or field name"
+          },
+          "reason": {
+            "type": "string",
+            "description": "the reason for the error",
+            "default": "Error reason"
+          },
+          "code": {
+            "type": "string",
+            "description": "the code of the error",
+            "nullable": true
+          },
+          "severity": {
+            "type": "string",
+            "description": "the severity of the error",
+            "nullable": true
+          }
+        }
+      },
+      "CreateMetricRequest": {
+        "type": "object",
+        "example": {
+          "id": "t1",
+          "label": "Temperature 1",
+          "type": "Temperature",
+          "category": null,
+          "description": "Some temperature",
+          "value": null
+        },
+        "additionalProperties": false,
+        "required": [
+          "id",
+          "label"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "The unique id of the metric",
+            "maxLength": 128,
+            "minLength": 1,
+            "pattern": "^[\\w\\.\\-]+$",
+            "nullable": false
+          },
+          "label": {
+            "type": "string",
+            "description": "The label for the metric",
+            "maxLength": 64,
+            "minLength": 1,
+            "nullable": false
+          },
+          "type": {
+            "description": "The type of the metric (optional, default: Text)",
+            "default": "Text",
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/CoreMetricType"
+              }
+            ]
+          },
+          "category": {
+            "description": "The category this metric belongs to (optional, default: Miscellaneous)",
+            "default": "Miscellaneous",
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/CoreCategory"
+              }
+            ]
+          },
+          "description": {
+            "type": "string",
+            "description": "A textual description for the metric (optional)",
+            "maxLength": 256,
+            "minLength": 0,
+            "nullable": true
+          },
+          "value": {
+            "description": "The current value of the metric (optional)",
+            "nullable": true
+          }
+        }
+      },
+      "CoreMetricType": {
+        "type": "string",
+        "description": "",
+        "x-enumNames": [
+          "ElectricCurrent",
+          "ElectricPotential",
+          "ElectricResistance",
+          "DataFlow",
+          "Data",
+          "Duration",
+          "Frequency",
+          "Multiplier",
+          "Numeric",
+          "Power",
+          "Rotation",
+          "Temperature",
+          "Text",
+          "Usage",
+          "Pressure",
+          "Volume",
+          "VolumeFlow",
+          "DateTime",
+          "Length",
+          "Speed",
+          "Mass",
+          "Area",
+          "Date",
+          "Time",
+          "Icon",
+          "Image",
+          "Angle"
+        ],
+        "enum": [
+          "ElectricCurrent",
+          "ElectricPotential",
+          "ElectricResistance",
+          "DataFlow",
+          "Data",
+          "Duration",
+          "Frequency",
+          "Multiplier",
+          "Numeric",
+          "Power",
+          "Rotation",
+          "Temperature",
+          "Text",
+          "Usage",
+          "Pressure",
+          "Volume",
+          "VolumeFlow",
+          "DateTime",
+          "Length",
+          "Speed",
+          "Mass",
+          "Area",
+          "Date",
+          "Time",
+          "Icon",
+          "Image",
+          "Angle"
+        ]
+      },
+      "CoreCategory": {
+        "type": "string",
+        "description": "",
+        "x-enumNames": [
+          "Miscellaneous",
+          "Battery",
+          "Cpu",
+          "Gpu",
+          "Mainboard",
+          "Network",
+          "Ram",
+          "Storage",
+          "System",
+          "Fan",
+          "Weather",
+          "Media",
+          "Audio",
+          "Program",
+          "Game"
+        ],
+        "enum": [
+          "Miscellaneous",
+          "Battery",
+          "Cpu",
+          "Gpu",
+          "Mainboard",
+          "Network",
+          "Ram",
+          "Storage",
+          "System",
+          "Fan",
+          "Weather",
+          "Media",
+          "Audio",
+          "Program",
+          "Game"
+        ]
+      },
+      "UpdateMetricValueRequest": {
+        "type": "object",
+        "example": {
+          "value": null
+        },
+        "additionalProperties": false,
+        "properties": {
+          "value": {
+            "description": "The new value of the metric",
+            "nullable": true
+          }
+        }
+      }
+    },
+    "securitySchemes": {
+      "JWTBearerAuth": {
+        "type": "http",
+        "description": "Enter a JWT token to authorize the requests...",
+        "scheme": "Bearer",
+        "bearerFormat": "JWT"
+      }
+    }
+  }
+}
