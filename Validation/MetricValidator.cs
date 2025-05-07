@@ -11,6 +11,10 @@ public class MetricValidator : Validator<CreateMetricRequest>
 {
   public MetricValidator(IMoBroService service)
   {
+    RuleFor(r => r)
+      .Must(_ => service.GetAll<Metric>().Count() < 100)
+      .WithMessage("Maximum number of metrics reached");
+
     RuleFor(r => r.Id)
       .Cascade(CascadeMode.Stop)
       .NotNull()
