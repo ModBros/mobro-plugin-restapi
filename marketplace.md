@@ -39,8 +39,8 @@ Detailed API documentation is available via Swagger if enabled in the plugin set
 
 The plugin offers the following configurable settings:
 
-| Setting         | Default  | Explanation                                                                        |
-|-----------------|----------|------------------------------------------------------------------------------------|
-| Port            | 8080     | The port to use for the Rest API                                                   |
-| Swagger support | disabled | Whether to enable swagger documentation (http://localhost:8080/swagger)            |
-| Persistence     | enabled  | Whether to persist registered metrics to make them available across plugin reboots |
+| Setting         | Default | Explanation                                                                        |
+|-----------------|---------|------------------------------------------------------------------------------------|
+| Port            | 8080    | The port to use for the Rest API                                                   |
+| Swagger support | enabled | Whether to enable swagger documentation (http://localhost:8080/swagger)            |
+| Persistence     | enabled | Whether to persist registered metrics to make them available across plugin reboots |

@@ -2,7 +2,7 @@
   "name": "modbros_restapi",
   "displayName": "Rest API",
   "author": "ModBros",
-  "description": null,
+  "description": "Add your own custom metrics via a simple REST interface",
   "assembly": "Plugin.RestApi.dll",
   "localization": null,
   "settings": [
@@ -21,7 +21,7 @@
       "name": "swagger_enable",
       "label": "Swagger support",
       "description": "Whether to enable swagger documentation (http://localhost:8080/swagger)",
-      "defaultValue": false,
+      "defaultValue": true,
       "required": false
     },
     {
