@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MoBro Rest API Plugin</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            color: #343a40;
+            line-height: 1.6;
+            margin: 0;
+            padding: 20px;
+            background-color: #e9eff5;
+        }
+
+        .container {
+            max-width: 960px;
+            margin: 0 auto;
+            background: #ffffff;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            color: #0056b3;
+            text-align: center;
+            margin-bottom: 25px;
+            font-size: 2.5em;
+        }
+
+        h2 {
+            color: #0056b3;
+            margin-top: 30px;
+            margin-bottom: 15px;
+            border-bottom: 2px solid #007bff;
+            padding-bottom: 5px;
+        }
+
+        p {
+            margin-bottom: 10px;
+        }
+
+        a {
+            color: #007bff;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        a:hover {
+            color: #0056b3;
+            text-decoration: underline;
+        }
+
+        ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        ul li {
+            background: #f2f7fc;
+            margin-bottom: 12px;
+            padding: 12px 20px;
+            border-left: 6px solid #007bff;
+            border-radius: 5px;
+            transition: background 0.3s ease;
+        }
+
+        ul li:hover {
+            background: #e6f0fa;
+        }
+
+        code {
+            background-color: #e9ecef;
+            padding: 3px 6px;
+            border-radius: 4px;
+            font-family: 'Consolas', 'Menlo', 'Monaco', monospace;
+            color: #d63384;
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 40px;
+            padding-top: 25px;
+            border-top: 1px solid #dee2e6;
+            color: #6c757d;
+            font-size: 0.9em;
+        }
+
+        .icon-heart::before {
+            content: '\2764'; /* More modern heart icon */
+            color: #dc3545;
+            margin: 0 5px;
+        }
+
+        .icon-copyright::before {
+            content: '\00A9';
+            margin-right: 5px;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <header>
+        <h1>MoBro REST API Plugin</h1>
+        <p>Congratulations! <br>You have successfully installed the MoBro REST API Plugin.</p>
+    </header>
+    <main>
+        <h2>Documentation</h2>
+        <p>
+            Detailed API documentation is available via Swagger: <a href="/swagger" target="_blank">/swagger</a><br>
+            (unless disabled in the plugin settings)
+        </p>
+        <h2>Endpoints</h2>
+        <ul>
+            <li><code>POST /api/v1/metrics</code>: Register a new metric.</li>
+            <li><code>GET /api/v1/metrics</code>: Get all registered metrics.</li>
+            <li><code>GET /api/v1/metrics/{id}</code>: Get a specific metric by ID.</li>
+            <li><code>DELETE /api/v1/metrics/{id}</code>: Unregister a metric by ID.</li>
+            <li><code>PUT /api/v1/metrics/{id}/value</code>: Update the value of a metric by ID.</li>
+        </ul>
+    </main>
+    <footer>
+        <p>
+            Created with <span class="icon-heart"></span> in Austria<br>
+            <span class="icon-copyright"></span> ModBros 2025<br>
+        </p>
+    </footer>
+</div>
+</body>
+</html>

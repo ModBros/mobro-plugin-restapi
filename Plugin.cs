@@ -76,6 +76,8 @@ public sealed class Plugin(
     var app = bld.Build();
     app
       .UseDefaultExceptionHandler()
+      .UseDefaultFiles()
+      .UseStaticFiles()
       .UseFastEndpoints(c =>
       {
         c.Endpoints.RoutePrefix = "api";
