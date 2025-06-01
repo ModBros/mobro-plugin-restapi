@@ -19,7 +19,8 @@ This plugin allows you to integrate your own custom metrics and data into MoBro 
 
 1. Install the REST API plugin in MoBro.
 2. Configure the plugin settings (Port, Swagger support, Persistence).
-3. Use the provided API endpoints to register and manage your custom metrics.
+3. Verify that the plugin is running by navigating to http://localhost:8080 (use the configured port) in your browser.
+4. Register and manage your custom metrics via the provided REST API.
 
 ## API Endpoints
 
