@@ -1,10 +1,17 @@
 {
   "name": "modbros_restapi",
-  "displayName": "Rest API",
+  "displayName": "REST API",
   "author": "ModBros",
   "description": "Add your own custom metrics via a simple REST interface",
   "assembly": "Plugin.RestApi.dll",
   "localization": null,
+  "repository": "https://github.com/ModBros/mobro-plugin-restapi",
+  "homepage": null,
+  "tags": [
+    "custom",
+    "rest",
+    "api"
+  ],
   "settings": [
     {
       "type": "number",
