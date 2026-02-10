@@ -36,7 +36,7 @@ public sealed class UpdateMetricValueEndpoint(IMoBroService moBroService, ILogge
     var metricId = Route<string>("id");
     if (metricId is null || !moBroService.TryGet<Metric>(metricId, out _))
     {
-      await SendNotFoundAsync(ct);
+      await Send.NotFoundAsync(ct);
       return;
     }
 
@@ -51,6 +51,6 @@ public sealed class UpdateMetricValueEndpoint(IMoBroService moBroService, ILogge
       return;
     }
 
-    await SendNoContentAsync(ct);
+    await Send.NoContentAsync(ct);
   }
 }

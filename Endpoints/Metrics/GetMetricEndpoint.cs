@@ -34,20 +34,14 @@ public sealed class GetMetricEndpoint(IMoBroService moBroService) : Endpoint<Emp
   public override async Task HandleAsync(EmptyRequest r, CancellationToken ct)
   {
     var id = Route<string>("id");
-    if (id is null)
+    if (id is null || !moBroService.TryGet<Metric>(id, out var metric))
     {
-      await SendNotFoundAsync(ct);
-      return;
-    }
-
-    if (!moBroService.TryGet<Metric>(id, out var metric))
-    {
-      await SendNotFoundAsync(ct);
+      await Send.NotFoundAsync(ct);
       return;
     }
 
     var response = Map.FromEntity(metric);
     response.Value = moBroService.GetMetricValue(metric.Id)?.Value;
-    await SendOkAsync(response, ct);
+    await Send.OkAsync(response, ct);
   }
 }

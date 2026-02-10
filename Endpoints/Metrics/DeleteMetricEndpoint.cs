@@ -26,13 +26,13 @@ public sealed class DeleteMetricEndpoint(IMoBroService moBroService, ILogger log
     var metricId = Route<string>("id");
     if (metricId is null || !moBroService.TryGet<Metric>(metricId, out _))
     {
-      await SendNotFoundAsync(ct);
+      await Send.NotFoundAsync(ct);
       return;
     }
 
     logger.LogDebug("Unregistering metric: {MetricId}", metricId);
     moBroService.Unregister(metricId);
 
-    await SendNoContentAsync(ct);
+    await Send.NoContentAsync(ct);
   }
 }

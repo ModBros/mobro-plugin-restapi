@@ -91,6 +91,6 @@ public sealed class CreateMetricEndpoint(
     response.Value = currValue?.Value;
     response.ValueUpdated = currValue?.Timestamp;
 
-    await SendOkAsync(response, ct);
+    await Send.OkAsync(response, ct);
   }
 }
