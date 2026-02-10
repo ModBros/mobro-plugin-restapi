@@ -24,8 +24,8 @@ public sealed class GetAllMetricsEndpoint(IMoBroService moBroService)
         {
           Id = "ti",
           Label = "Temperature 1",
-          TypeId = CoreMetricType.Temperature.ToString(),
-          CategoryId = CoreCategory.Miscellaneous.ToString(),
+          TypeId = nameof(CoreMetricType.Temperature),
+          CategoryId = nameof(CoreCategory.Miscellaneous),
           Description = "Some temperature",
         }
       };

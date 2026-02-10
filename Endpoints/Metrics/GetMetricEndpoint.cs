@@ -21,8 +21,8 @@ public sealed class GetMetricEndpoint(IMoBroService moBroService) : Endpoint<Emp
       {
         Id = "ti",
         Label = "Temperature 1",
-        TypeId = CoreMetricType.Temperature.ToString(),
-        CategoryId = CoreCategory.Miscellaneous.ToString(),
+        TypeId = nameof(CoreMetricType.Temperature),
+        CategoryId = nameof(CoreCategory.Miscellaneous),
         Description = "Some temperature",
       };
       s.Params["id"] = "The id of the metric";
