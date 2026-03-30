@@ -1,47 +1,46 @@
-# REST API Plugin for MoBro
+# MoBro REST API
 
-Integrate custom metrics into MoBro using a simple REST API.  
-This plugin allows you to integrate your own custom metrics and data into MoBro to integrate them into your dashboards.
+Connect virtually anything to your dashboard.  
+This plugin turns MoBro into a data hub, allowing you to push custom metrics from your own scripts, home automation, or
+third-party apps via a simple RESTful interface.
+
+---
 
 ## Features
 
-* Metric Management
-    * Freely register up to 100 new custom metrics
-    * Update the value of a registered metric at any time
-    * Fetch registered metrics and check their current value
-    * Unregister metrics when they are no longer needed
-* **API Documentation**: Built-in Swagger documentation for easy API exploration
-* **Persistence:** Registered metrics can be persisted across plugin restarts
+- **Metric Management**: Register up to 100 custom metrics and update them on the fly.
+- **Persistent Data**: Optionally keep your registered metrics alive even after restarting MoBro.
+- **Built-in Documentation**: Interactive **Swagger UI** makes testing and integration seamless.
+- **Flexible Integration**: Perfect for Python scripts, Node.js, PowerShell, or even `curl` commands.
 
 ---
 
-# Getting Started
+## Getting Started
 
-1. Install the REST API plugin in MoBro.
-2. Configure the plugin settings (Port, Swagger support, Persistence).
-3. Verify that the plugin is running by navigating to http://localhost:8080 (use the configured port) in your browser.
-4. Register and manage your custom metrics via the provided REST API.
-
-## API Endpoints
-
-The plugin exposes the following REST API endpoints:
-
-* `POST /api/v1/metrics`: Register a new metric.
-* `GET /api/v1/metrics`: Get all registered metrics.
-* `GET /api/v1/metrics/{id}`: Get a specific metric by ID.
-* `DELETE /api/v1/metrics/{id}`: Unregister a metric by ID.
-* `PUT /api/v1/metrics/{id}/value`: Update the value of a metric by ID.
-
-Detailed API documentation is available via Swagger if enabled in the plugin settings.
+1. **Install** the plugin via the MoBro Marketplace.
+2. **Configure** your preferred **Port** (default: `8080`).
+3. **Confirm**: Open `http://localhost:8080` in your browser to confirm the API is live.
+4. **Explore**: Visit the Swagger UI at `http://localhost:8080/swagger` to see all available endpoints.
+5. **Push Data**: Start sending `POST` and `PUT` requests to populate your dashboard.
 
 ---
 
-# Settings
+## API Reference
 
-The plugin offers the following configurable settings:
+| Endpoint                     | Method   | Action                                         |
+|:-----------------------------|:---------|:-----------------------------------------------|
+| `/api/v1/metrics`            | `POST`   | Register a new custom metric.                  |
+| `/api/v1/metrics`            | `GET`    | List all currently registered metrics.         |
+| `/api/v1/metrics/{id}`       | `GET`    | Get a specific registired metric.              |
+| `/api/v1/metrics/{id}/value` | `PUT`    | Update the current value of a specific metric. |
+| `/api/v1/metrics/{id}`       | `DELETE` | Remove a metric from the registry.             |
 
-| Setting         | Default | Explanation                                                                        |
-|-----------------|---------|------------------------------------------------------------------------------------|
-| Port            | 8080    | The port to use for the Rest API                                                   |
-| Swagger support | enabled | Whether to enable swagger documentation (http://localhost:8080/swagger)            |
-| Persistence     | enabled | Whether to persist registered metrics to make them available across plugin reboots |
+---
+
+## Settings
+
+| Setting             | Default   | Description                                                     |
+|:--------------------|:----------|:----------------------------------------------------------------|
+| **Port**            | `8080`    | The local port the API server listens on.                       |
+| **Swagger Support** | `Enabled` | Enables the interactive `/swagger` documentation page.          |
+| **Persistence**     | `Enabled` | Saves your registered metrics to disk so they survive a reboot. |
