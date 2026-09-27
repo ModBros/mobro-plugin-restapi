@@ -13,6 +13,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
+- Updated MoBro SDK to v1.2.0
 - Requests are only accepted if addressed to `localhost`, `127.0.0.1` or `[::1]`, which protects against DNS rebinding attacks from websites
 - Creating a metric with an id that already exists returns `409 Conflict` instead of `400 Bad Request`
 
