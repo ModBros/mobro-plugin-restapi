@@ -29,7 +29,7 @@ public sealed class Plugin(
   public void Init()
   {
     var port = settings.GetValue("port", 8080);
-    var swagger = settings.GetValue("swagger_enable", false);
+    var swagger = settings.GetValue("swagger_enable", true);
 
     var app = BuildWebApplication(port, swagger);
 

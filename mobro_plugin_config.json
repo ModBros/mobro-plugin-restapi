@@ -27,7 +27,7 @@
       "type": "checkbox",
       "name": "swagger_enable",
       "label": "Swagger support",
-      "description": "Whether to enable swagger documentation (http://localhost:8080/swagger)",
+      "description": "Whether to enable swagger documentation (http://localhost:<port>/swagger)",
       "defaultValue": true,
       "required": false
     },

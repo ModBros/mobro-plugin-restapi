@@ -20,6 +20,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - The API server no longer picks up configuration files, environment variables or console logging of the MoBro service; its logs go to the plugin log
 - Conflict and some bad request error responses use camelCase property names like all other responses
 - Example metric ids in the API documentation are consistent (`t1`)
+- Swagger setting description no longer refers to a fixed port and Swagger defaults to enabled, as declared in the plugin settings
 
 ## 1.1.0 - 2026-02-16
 
