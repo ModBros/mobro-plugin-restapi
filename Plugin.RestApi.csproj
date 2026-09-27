@@ -30,7 +30,7 @@
     </ItemGroup>
 
     <ItemGroup>
-        <Content Include="wwwroot\**\*" CopyToOutputDirectory="PreserveNewest" />
+        <Content Include="wwwroot\**\*" CopyToOutputDirectory="PreserveNewest"/>
     </ItemGroup>
 
     <ItemGroup>
@@ -41,13 +41,13 @@
     </ItemGroup>
 
     <ItemGroup>
-        <PackageReference Include="FastEndpoints" Version="8.0.1"/>
-        <PackageReference Include="FastEndpoints.Swagger" Version="8.0.1"/>
+        <PackageReference Include="FastEndpoints" Version="8.3.0"/>
+        <PackageReference Include="FastEndpoints.Swagger" Version="8.3.0"/>
         <PackageReference Include="MoBro.Plugin.SDK" Version="1.1.0" PrivateAssets="all"/>
     </ItemGroup>
 
     <ItemGroup>
-        <FrameworkReference Include="Microsoft.AspNetCore.App" />
+        <FrameworkReference Include="Microsoft.AspNetCore.App"/>
     </ItemGroup>
 
 </Project>
