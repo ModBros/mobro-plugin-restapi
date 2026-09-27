@@ -12,6 +12,7 @@ public class PersistenceService
   private readonly IMoBroPersistenceManager _persistenceManager;
   private readonly IMoBroService _service;
   private readonly ILogger _logger;
+  private readonly Lock _lock = new();
 
   public PersistenceService(
     IMoBroPersistenceManager persistenceManager,
@@ -31,7 +32,7 @@ public class PersistenceService
   {
     if (!_enabled) return;
 
-    lock (this)
+    lock (_lock)
     {
       try
       {
@@ -61,7 +62,7 @@ public class PersistenceService
   {
     if (!_enabled) return;
 
-    lock (this)
+    lock (_lock)
     {
       var metrics = _service.GetAll<Metric>().ToArray();
       var metricValues = _service.GetMetricValues().ToArray();
