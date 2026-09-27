@@ -1,11 +1,16 @@
 using FastEndpoints;
 using Microsoft.Extensions.Logging;
+using MoBro.Plugin.RestApi.Services;
 using MoBro.Plugin.SDK.Models.Metrics;
 using MoBro.Plugin.SDK.Services;
 
 namespace MoBro.Plugin.RestApi.Endpoints.Metrics;
 
-public sealed class DeleteMetricEndpoint(IMoBroService moBroService, ILogger logger) : EndpointWithoutRequest
+public sealed class DeleteMetricEndpoint(
+  IMoBroService moBroService,
+  PersistenceService persistenceService,
+  ILogger logger
+) : EndpointWithoutRequest
 {
   public override void Configure()
   {
@@ -32,6 +37,7 @@ public sealed class DeleteMetricEndpoint(IMoBroService moBroService, ILogger log
 
     logger.LogDebug("Unregistering metric: {MetricId}", metricId);
     moBroService.Unregister(metricId);
+    persistenceService.SchedulePersist();
 
     await Send.NoContentAsync(ct);
   }

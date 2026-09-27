@@ -105,5 +105,6 @@ public sealed class Plugin(
     _cancellationTokenSource.Cancel();
     _appRunTask?.Wait(TimeSpan.FromSeconds(10));
     _cancellationTokenSource.Dispose();
+    _persistenceService.Dispose();
   }
 }

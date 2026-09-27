@@ -4,6 +4,7 @@ using MoBro.Plugin.RestApi.Contracts.Requests;
 using MoBro.Plugin.RestApi.Contracts.Responses;
 using MoBro.Plugin.RestApi.Extensions;
 using MoBro.Plugin.RestApi.Mapping;
+using MoBro.Plugin.RestApi.Services;
 using MoBro.Plugin.SDK.Enums;
 using MoBro.Plugin.SDK.Exceptions;
 using MoBro.Plugin.SDK.Models.Metrics;
@@ -13,6 +14,7 @@ namespace MoBro.Plugin.RestApi.Endpoints.Metrics;
 
 public sealed class CreateMetricEndpoint(
   IMoBroService moBroService,
+  PersistenceService persistenceService,
   ILogger logger
 ) : Endpoint<CreateMetricRequest, MetricResponse, MetricMapper>
 {
@@ -83,6 +85,8 @@ public sealed class CreateMetricEndpoint(
         return;
       }
     }
+
+    persistenceService.SchedulePersist();
 
     var response = Map.FromEntity(entity);
 

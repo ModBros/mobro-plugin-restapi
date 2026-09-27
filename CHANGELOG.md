@@ -5,6 +5,12 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## 1.1.1 - Unreleased
+
+### Fixed
+
+- Metrics and their values are persisted shortly after every change instead of only on shutdown, so they are no longer lost after a crash or power loss
+
 ## 1.1.0 - 2026-02-16
 
 ### Changed

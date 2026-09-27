@@ -2,14 +2,18 @@ using FastEndpoints;
 using Microsoft.Extensions.Logging;
 using MoBro.Plugin.RestApi.Contracts.Requests;
 using MoBro.Plugin.RestApi.Extensions;
+using MoBro.Plugin.RestApi.Services;
 using MoBro.Plugin.SDK.Exceptions;
 using MoBro.Plugin.SDK.Models.Metrics;
 using MoBro.Plugin.SDK.Services;
 
 namespace MoBro.Plugin.RestApi.Endpoints.Metrics;
 
-public sealed class UpdateMetricValueEndpoint(IMoBroService moBroService, ILogger logger)
-  : Endpoint<UpdateMetricValueRequest>
+public sealed class UpdateMetricValueEndpoint(
+  IMoBroService moBroService,
+  PersistenceService persistenceService,
+  ILogger logger
+) : Endpoint<UpdateMetricValueRequest>
 {
   public override void Configure()
   {
@@ -51,6 +55,7 @@ public sealed class UpdateMetricValueEndpoint(IMoBroService moBroService, ILogge
       return;
     }
 
+    persistenceService.SchedulePersist();
     await Send.NoContentAsync(ct);
   }
 }
