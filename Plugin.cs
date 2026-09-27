@@ -54,7 +54,11 @@ public sealed class Plugin(
 
     // do not pick up appsettings*.json, environment variables or arguments of the MoBro host process
     bld.Configuration.Sources.Clear();
-    bld.Configuration.AddInMemoryCollection();
+    bld.Configuration.AddInMemoryCollection(new Dictionary<string, string?>
+    {
+      // only accept requests addressed to the loopback interface (protects against DNS rebinding)
+      ["AllowedHosts"] = "localhost;127.0.0.1;[::1]"
+    });
 
     // route ASP.NET Core logging into the plugin logger instead of the console of the host process
     bld.Logging
