@@ -1,4 +1,3 @@
-using System.Text.Json;
 using FastEndpoints;
 using FluentValidation;
 using MoBro.Plugin.RestApi.Contracts.Requests;
@@ -31,14 +30,6 @@ public class MetricValidator : Validator<CreateMetricRequest>
       .MaximumLength(256);
 
     RuleFor(r => r.Value)
-      .Must(jsonElement => jsonElement != null && jsonElement.Value.ValueKind switch
-      {
-        JsonValueKind.Number => true,
-        JsonValueKind.False or JsonValueKind.True => true,
-        JsonValueKind.String => jsonElement.Value.GetString()?.Length < 128,
-        _ => false
-      })
-      .When(r => r.Value != null)
-      .WithMessage("Invalid metric value");
+      .ValidMetricValue();
   }
 }
