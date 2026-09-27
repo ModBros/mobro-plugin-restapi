@@ -3,9 +3,11 @@ using FastEndpoints;
 using FastEndpoints.Swagger;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using MoBro.Plugin.RestApi.Logging;
 using MoBro.Plugin.RestApi.Services;
 using MoBro.Plugin.SDK;
 using MoBro.Plugin.SDK.Services;
@@ -45,7 +47,20 @@ public sealed class Plugin(
 
   private WebApplication BuildWebApplication(int port, bool swagger)
   {
-    var bld = WebApplication.CreateBuilder();
+    var bld = WebApplication.CreateBuilder(new WebApplicationOptions
+    {
+      EnvironmentName = Environments.Production
+    });
+
+    // do not pick up appsettings*.json, environment variables or arguments of the MoBro host process
+    bld.Configuration.Sources.Clear();
+    bld.Configuration.AddInMemoryCollection();
+
+    // route ASP.NET Core logging into the plugin logger instead of the console of the host process
+    bld.Logging
+      .ClearProviders()
+      .AddProvider(new PluginLoggerProvider(logger))
+      .AddFilter("Microsoft.AspNetCore", LogLevel.Warning);
 
     bld.WebHost.UseUrls($"http://localhost:{port}");
     bld.Services

@@ -16,6 +16,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Metrics and their values are persisted shortly after every change instead of only on shutdown, so they are no longer lost after a crash or power loss
 - `GET /api/v1/metrics/{id}` now includes `valueUpdated` like the other endpoints
 - `PUT /api/v1/metrics/{id}/value` validates the value like metric creation: arrays and objects are rejected with `400 Bad Request` instead of silently becoming `null`, and strings are limited to 128 characters
+- The API server no longer picks up configuration files, environment variables or console logging of the MoBro service; its logs go to the plugin log
 
 ## 1.1.0 - 2026-02-16
 
