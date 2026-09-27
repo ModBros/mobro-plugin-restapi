@@ -41,7 +41,11 @@ public sealed class GetMetricEndpoint(IMoBroService moBroService) : Endpoint<Emp
     }
 
     var response = Map.FromEntity(metric);
-    response.Value = moBroService.GetMetricValue(metric.Id)?.Value;
+
+    // set current metric value
+    var currValue = moBroService.GetMetricValue(metric.Id);
+    response.Value = currValue?.Value;
+    response.ValueUpdated = currValue?.Timestamp;
     await Send.OkAsync(response, ct);
   }
 }

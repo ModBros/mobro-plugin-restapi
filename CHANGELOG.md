@@ -14,6 +14,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 
 - Metrics and their values are persisted shortly after every change instead of only on shutdown, so they are no longer lost after a crash or power loss
+- `GET /api/v1/metrics/{id}` now includes `valueUpdated` like the other endpoints
 
 ## 1.1.0 - 2026-02-16
 
