@@ -18,7 +18,6 @@
         <UseAppHost>false</UseAppHost>
         <SelfContained>false</SelfContained>
         <ImplicitUsings>enable</ImplicitUsings>
-        <Nullable>enable</Nullable>
         <LangVersion>14</LangVersion>
         <InvariantGlobalization>true</InvariantGlobalization>
     </PropertyGroup>
