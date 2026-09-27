@@ -43,6 +43,7 @@ public sealed class CreateMetricEndpoint(
       };
       s.Responses[200] = "The newly registered metric";
       s.Responses[400] = "Validation error";
+      s.Responses[409] = "A metric with this id already exists";
       s.RequestParam(r => r.Id, "The unique id of the metric");
       s.RequestParam(r => r.Label, "The label for the metric");
       s.RequestParam(r => r.Type, "The type of the metric (optional, default: Text)");

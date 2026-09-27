@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## 1.1.1 - Unreleased
 
+### Changed
+
+- Creating a metric with an id that already exists returns `409 Conflict` instead of `400 Bad Request`
+
 ### Fixed
 
 - Metrics and their values are persisted shortly after every change instead of only on shutdown, so they are no longer lost after a crash or power loss

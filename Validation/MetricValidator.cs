@@ -20,9 +20,7 @@ public class MetricValidator : Validator<CreateMetricRequest>
       .NotNull()
       .NotEmpty()
       .Length(1, 128)
-      .Matches(@"^[\w\.\-]+$")
-      .Must(id => !service.TryGet<Metric>(id, out _))
-      .WithMessage("Metric already exists by this id");
+      .Matches(@"^[\w\.\-]+$");
 
     RuleFor(r => r.Label)
       .NotNull()
