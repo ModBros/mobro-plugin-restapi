@@ -4,7 +4,7 @@
   "author": "ModBros",
   "description": "Add your own custom metrics via a simple REST interface",
   "assembly": "Plugin.RestApi.dll",
-  "localization": null,
+  "localization": "Resources/Localization",
   "repository": "https://github.com/ModBros/mobro-plugin-restapi",
   "homepage": null,
   "tags": [
@@ -16,8 +16,8 @@
     {
       "type": "number",
       "name": "port",
-      "label": "Port",
-      "description": "The port for the Rest API",
+      "label": "setting.port.label",
+      "description": "setting.port.desc",
       "required": true,
       "defaultValue": 8080,
       "min": 0,
@@ -26,16 +26,16 @@
     {
       "type": "checkbox",
       "name": "swagger_enable",
-      "label": "Swagger support",
-      "description": "Whether to enable swagger documentation (http://localhost:<port>/swagger)",
+      "label": "setting.swagger_enable.label",
+      "description": "setting.swagger_enable.desc",
       "defaultValue": true,
       "required": false
     },
     {
       "type": "checkbox",
       "name": "persistence_enable",
-      "label": "Persistence",
-      "description": "Whether to persist registered metrics to make them available after plugin reboots",
+      "label": "setting.persistence_enable.label",
+      "description": "setting.persistence_enable.desc",
       "defaultValue": true,
       "required": false
     }

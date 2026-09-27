@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## 1.1.1 - Unreleased
 
+### Added
+
+- German translation of the plugin settings
+
 ### Changed
 
 - Requests are only accepted if addressed to `localhost`, `127.0.0.1` or `[::1]`, which protects against DNS rebinding attacks from websites

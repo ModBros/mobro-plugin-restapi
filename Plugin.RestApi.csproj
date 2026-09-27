@@ -35,6 +35,13 @@
     </ItemGroup>
 
     <ItemGroup>
+        <Content Include="Resources\**\*">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+            <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+        </Content>
+    </ItemGroup>
+
+    <ItemGroup>
         <PackageReference Include="FastEndpoints" Version="8.0.1"/>
         <PackageReference Include="FastEndpoints.Swagger" Version="8.0.1"/>
         <PackageReference Include="MoBro.Plugin.SDK" Version="1.1.0" PrivateAssets="all"/>

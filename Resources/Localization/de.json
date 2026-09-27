@@ -1,0 +1,8 @@
+{
+  "setting.port.label": "Port",
+  "setting.port.desc": "Der Port der REST API",
+  "setting.swagger_enable.label": "Swagger-Unterstützung",
+  "setting.swagger_enable.desc": "Ob die Swagger-Dokumentation aktiviert werden soll (http://localhost:<port>/swagger)",
+  "setting.persistence_enable.label": "Persistenz",
+  "setting.persistence_enable.desc": "Ob registrierte Metriken gespeichert werden sollen, damit sie nach einem Neustart des Plugins weiterhin verfügbar sind"
+}
