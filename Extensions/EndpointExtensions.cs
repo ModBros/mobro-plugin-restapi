@@ -14,7 +14,7 @@ public static class EndpointExtensions
       {
         Status = StatusCodes.Status400BadRequest,
         Detail = detail
-      });
+      }, JsonSerializerOptions.Web);
 
       ep.HttpContext.Response.Clear();
       ep.HttpContext.Response.StatusCode = StatusCodes.Status400BadRequest;
@@ -28,7 +28,7 @@ public static class EndpointExtensions
       {
         Status = StatusCodes.Status409Conflict,
         Detail = detail
-      });
+      }, JsonSerializerOptions.Web);
 
       ep.HttpContext.Response.Clear();
       ep.HttpContext.Response.StatusCode = StatusCodes.Status409Conflict;

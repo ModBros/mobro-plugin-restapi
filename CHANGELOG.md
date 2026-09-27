@@ -17,6 +17,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - `GET /api/v1/metrics/{id}` now includes `valueUpdated` like the other endpoints
 - `PUT /api/v1/metrics/{id}/value` validates the value like metric creation: arrays and objects are rejected with `400 Bad Request` instead of silently becoming `null`, and strings are limited to 128 characters
 - The API server no longer picks up configuration files, environment variables or console logging of the MoBro service; its logs go to the plugin log
+- Conflict and some bad request error responses use camelCase property names like all other responses
 
 ## 1.1.0 - 2026-02-16
 
