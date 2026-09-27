@@ -35,7 +35,7 @@ public sealed class CreateMetricEndpoint(
       };
       s.ResponseExamples[200] = new MetricResponse
       {
-        Id = "ti",
+        Id = "t1",
         Label = "Temperature 1",
         TypeId = nameof(CoreMetricType.Temperature),
         CategoryId = nameof(CoreCategory.Miscellaneous),

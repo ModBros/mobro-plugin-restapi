@@ -40,7 +40,7 @@
                   "$ref": "#/components/schemas/MetricResponse"
                 },
                 "example": {
-                  "id": "ti",
+                  "id": "t1",
                   "label": "Temperature 1",
                   "typeId": "Temperature",
                   "categoryId": "Miscellaneous",
@@ -82,7 +82,7 @@
                 },
                 "example": [
                   {
-                    "id": "ti",
+                    "id": "t1",
                     "label": "Temperature 1",
                     "typeId": "Temperature",
                     "categoryId": "Miscellaneous",
@@ -147,7 +147,7 @@
                   "$ref": "#/components/schemas/MetricResponse"
                 },
                 "example": {
-                  "id": "ti",
+                  "id": "t1",
                   "label": "Temperature 1",
                   "typeId": "Temperature",
                   "categoryId": "Miscellaneous",

@@ -22,7 +22,7 @@ public sealed class GetAllMetricsEndpoint(IMoBroService moBroService)
       {
         new MetricResponse
         {
-          Id = "ti",
+          Id = "t1",
           Label = "Temperature 1",
           TypeId = nameof(CoreMetricType.Temperature),
           CategoryId = nameof(CoreCategory.Miscellaneous),

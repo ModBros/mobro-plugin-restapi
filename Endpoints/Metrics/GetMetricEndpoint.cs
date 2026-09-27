@@ -19,7 +19,7 @@ public sealed class GetMetricEndpoint(IMoBroService moBroService) : Endpoint<Emp
       s.Summary = "Get a specific metric";
       s.ResponseExamples[200] = new MetricResponse
       {
-        Id = "ti",
+        Id = "t1",
         Label = "Temperature 1",
         TypeId = nameof(CoreMetricType.Temperature),
         CategoryId = nameof(CoreCategory.Miscellaneous),
