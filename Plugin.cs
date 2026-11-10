@@ -31,6 +31,9 @@ public sealed class Plugin(
     var port = settings.GetValue("port", 8080);
     var swagger = settings.GetValue("swagger_enable", true);
 
+    // load before accepting requests, so persisted values cannot overwrite fresh ones
+    _persistenceService.LoadMetrics();
+
     var app = BuildWebApplication(port, swagger);
 
     logger.LogInformation("Starting on port {Port}", port);
@@ -41,8 +44,6 @@ public sealed class Plugin(
         service.Error(t.Exception);
       }
     });
-
-    _persistenceService.LoadMetrics();
   }
 
   private WebApplication BuildWebApplication(int port, bool swagger)

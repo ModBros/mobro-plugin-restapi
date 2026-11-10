@@ -26,6 +26,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Conflict and some bad request error responses use camelCase property names like all other responses
 - Example metric ids in the API documentation are consistent (`t1`)
 - Swagger setting description no longer refers to a fixed port and Swagger defaults to enabled, as declared in the plugin settings
+- Numeric values out of range (e.g. `1e400`) are rejected with `400 Bad Request` instead of being stored as infinity, which broke reading metrics and persisting values
+- Creating a metric with an invalid value no longer leaves the metric registered
+- Persisted metrics are loaded before the API accepts requests, so they can no longer overwrite values sent right after startup
 
 ## 1.1.0 - 2026-02-16
 

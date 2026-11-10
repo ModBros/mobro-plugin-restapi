@@ -8,32 +8,24 @@ public static class EndpointExtensions
 {
   extension(IEndpoint ep)
   {
-    public Task SendBadRequest(string detail, CancellationToken ct = default)
+    public Task SendBadRequest(string detail, CancellationToken ct = default) =>
+      SendProblem(ep, StatusCodes.Status400BadRequest, detail, ct);
+
+    public Task SendConflict(string detail, CancellationToken ct = default) =>
+      SendProblem(ep, StatusCodes.Status409Conflict, detail, ct);
+  }
+
+  private static Task SendProblem(IEndpoint ep, int status, string detail, CancellationToken ct)
+  {
+    var problemDetailsJson = JsonSerializer.Serialize(new ProblemDetails
     {
-      var problemDetailsJson = JsonSerializer.Serialize(new ProblemDetails
-      {
-        Status = StatusCodes.Status400BadRequest,
-        Detail = detail
-      }, JsonSerializerOptions.Web);
+      Status = status,
+      Detail = detail
+    }, JsonSerializerOptions.Web);
 
-      ep.HttpContext.Response.Clear();
-      ep.HttpContext.Response.StatusCode = StatusCodes.Status400BadRequest;
-      ep.HttpContext.Response.ContentType = "application/json";
-      return ep.HttpContext.Response.WriteAsync(problemDetailsJson, ct);
-    }
-
-    public Task SendConflict(string detail, CancellationToken ct = default)
-    {
-      var problemDetailsJson = JsonSerializer.Serialize(new ProblemDetails
-      {
-        Status = StatusCodes.Status409Conflict,
-        Detail = detail
-      }, JsonSerializerOptions.Web);
-
-      ep.HttpContext.Response.Clear();
-      ep.HttpContext.Response.StatusCode = StatusCodes.Status409Conflict;
-      ep.HttpContext.Response.ContentType = "application/json";
-      return ep.HttpContext.Response.WriteAsync(problemDetailsJson, ct);
-    }
+    ep.HttpContext.Response.Clear();
+    ep.HttpContext.Response.StatusCode = status;
+    ep.HttpContext.Response.ContentType = "application/json";
+    return ep.HttpContext.Response.WriteAsync(problemDetailsJson, ct);
   }
 }

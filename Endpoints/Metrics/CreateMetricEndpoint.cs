@@ -82,6 +82,8 @@ public sealed class CreateMetricEndpoint(
       }
       catch (MetricValueValidationException e)
       {
+        // do not leave a half-created metric behind
+        moBroService.Unregister(entity.Id);
         await this.SendBadRequest(e.Message, ct);
         return;
       }

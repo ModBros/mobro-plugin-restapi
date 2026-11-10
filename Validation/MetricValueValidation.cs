@@ -13,7 +13,8 @@ public static class MetricValueValidation
       .Must(jsonElement => jsonElement == null || jsonElement.Value.ValueKind switch
       {
         JsonValueKind.Null => true,
-        JsonValueKind.Number => true,
+        // numbers beyond the double range (e.g. 1e400) parse to infinity, which cannot be serialized back to JSON
+        JsonValueKind.Number => double.IsFinite(jsonElement.Value.GetDouble()),
         JsonValueKind.False or JsonValueKind.True => true,
         JsonValueKind.String => jsonElement.Value.GetString()?.Length <= MaxStringLength,
         // arrays and objects are not supported as metric values
